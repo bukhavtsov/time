@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Time</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1em;
+            margin-top: 1em;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            font-size: 1.2em;
+            margin: 1em 0 0.5em;
+        }
+
+        input[type="number"] {
+            font-size: 1.2em;
+            padding: 0.5em;
+            border-radius: 0.5em;
+            border: none;
+            box-shadow: 0 0 0.2em #ccc;
+            width: 100%;
+            max-width: 15em;
+        }
+
+        button {
+            background-color: #0074d9;
+            color: #fff;
+            border-radius: 0.5em;
+            padding: 0.5em 1em;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 1em;
+        }
+
+        button:hover {
+            background-color: #005ea6;
+        }
+
+        .resultOutput {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .result {
+            font-size: 1.2em;
+            margin-top: 1em;
+            background-color: #ffffcc;
+            border-radius: 0.5em;
+            padding: 0.5em 1em;
+            box-shadow: 0 0 0.2em #ccc;
+            text-align: center;
+            max-width: 15em;
+        }
+
+        @media screen and (max-width: 767px) {
+            /* Small screens (mobile phones) */
+            h1 {
+                font-size: 1em;
+            }
+
+            label {
+                font-size: 1.5em;
+            }
+
+            input[type="number"] {
+                font-size: 1.5em;
+                max-width: 100%;
+            }
+
+            button {
+                font-size: 3em;
+            }
+
+            .result {
+                font-size: 1.5em;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            /* Medium screens (tablets, laptops) */
+            h1 {
+                font-size: 2em;
+            }
+
+            label {
+                font-size: 1.2em;
+            }
+
+            input[type="number"] {
+                font-size: 1.2em;
+                max-width: 15em;
+            }
+
+            button {
+                font-size: 2.2em;
+            }
+
+            .result {
+                font-size: 1.2em;
+            }
+        }
+        @media only screen and (max-width: 768px) {
+            h1 {
+                font-size: 1em;
+            }
+
+            label {
+                font-size: 1.8em;
+            }
+
+            input[type="number"] {
+                font-size: 1.8em;
+                max-width: 10em;
+            }
+
+            button {
+                font-size: 1em;
+            }
+
+            .result {
+                font-size: 1.8em;
+                max-width: 10em;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>Time on salary</h1>
+<label for="salary">Enter your hourly salary rate:</label>
+<input type="number" value="30" id="salary" min="0" step="0.01">
+<br><br>
+<label for="price">Enter the price for the item:</label>
+<input type="number" value="60" id="price" min="0" step="0.01">
+<br><br>
+<label for="workingHours">Enter your working hours(per day):</label>
+<input type="number" value="8" id="workingHours" min="0" step="24">
+<br><br>
+<label for="workingDays">Enter your working days (per month):</label>
+<input type="number" value="20" id="workingDays" min="0" step="31">
+<br><br>
+<button onclick="calculate()">Calculate</button>
+<br><br>
+<div class="resultOutput" id="resultOutput">
+    <h1>This how long you need to work to afford this item:</h1>
+    <div class="result" id="resultMinutes"></div>
+    <div class="result" id="resultHours"></div>
+    <div class="result" id="resultDays"></div>
+    <div class="result" id="resultMonths"></div>
+    <div class="result" id="resultYears"></div>
+</div>
+<script>
+    function calculate() {
+        const salary = document.getElementById("salary").value;
+        const price = document.getElementById("price").value;
+        const workingHours = document.getElementById("workingHours").value;
+        const workingDays = document.getElementById("workingDays").value;
+        const hours = price / salary;
+        const minutes = Math.round(hours * 60);
+        const seconds = Math.round(hours * 3600);
+        let outputMinutes = `${minutes} minutes (${seconds} seconds)`;
+
+        let outputHours = `${hours.toFixed(2)} hours`;
+
+        const days = hours / workingHours;
+        let outputDays = `${days.toFixed(2)} days`;
+
+        const months = (hours / workingHours / workingDays);
+        let outputMonths = `${months.toFixed(2)} months`;
+
+        const years = (hours / workingHours / workingDays / 12);
+        let outputYears = `${years.toFixed(2)} years`;
+
+        document.getElementById("resultMinutes").innerHTML = outputMinutes;
+        document.getElementById("resultHours").innerHTML = outputHours;
+        document.getElementById("resultDays").innerHTML = outputDays;
+        document.getElementById("resultMonths").innerHTML = outputMonths;
+        document.getElementById("resultYears").innerHTML = outputYears;
+        document.getElementById("resultOutput").style.display = "flex";
+    }
+</script>
+</body>
+</html>
