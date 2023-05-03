@@ -2,162 +2,174 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Time</title>
+    <title>TimeMoney</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
+    <link rel="stylesheet" href="assets/Inter-3.19/Inter Web/inter.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: "Inter", sans-serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
 
-        h1 {
-            font-size: 1em;
-            margin-top: 1em;
-            text-align: center;
-        }
-
-        label {
-            display: block;
-            font-size: 1.2em;
-            margin: 1em 0 0.5em;
-        }
-
-        input[type="number"] {
-            font-size: 1.2em;
-            padding: 0.5em;
-            border-radius: 0.5em;
-            border: none;
-            box-shadow: 0 0 0.2em #ccc;
-            width: 100%;
-            max-width: 15em;
-        }
-
-        button {
-            background-color: #0074d9;
-            color: #fff;
-            border-radius: 0.5em;
-            padding: 0.5em 1em;
-            border: none;
-            font-size: 1.2em;
-            cursor: pointer;
-            margin-top: 1em;
-        }
-
-        button:hover {
-            background-color: #005ea6;
+        input {
+            border-radius:10px;
+            padding: 1% 3% 1% 1%;
+            border: 1px solid black;
         }
 
         .resultOutput {
             display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
 
-        .result {
-            font-size: 1.2em;
-            margin-top: 1em;
-            background-color: #ffffcc;
-            border-radius: 0.5em;
-            padding: 0.5em 1em;
-            box-shadow: 0 0 0.2em #ccc;
+
+        /*nice green button*/
+        * {
+            cursor: default;
+            position: relative;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        .btn {
+            width: 200px;
+            height: 50px;
+
+            color: rgba(255, 255, 255, 0.9);
+            background: #3e3e3e;
+
+            font-size: 1.05em;
+            font-weight: 700;
+            letter-spacing: 1px;
             text-align: center;
-            max-width: 15em;
+            line-height: 50px;
+            text-transform: uppercase;
+            text-decoration: none;
+
+            border-radius: 25px;
+
+            overflow: hidden;
+            display: inline-block;
         }
 
-        @media screen and (max-width: 767px) {
-            /* Small screens (mobile phones) */
-            h1 {
-                font-size: 1em;
-            }
+        .btn .hidden {
+            width: 0px;
+            height: 0px;
 
-            label {
-                font-size: 1.5em;
-            }
+            color: transparent;
+            background: #d8d8d4;
 
-            input[type="number"] {
-                font-size: 1.5em;
-                max-width: 100%;
-            }
+            line-height: 200px;
 
-            button {
-                font-size: 3em;
-            }
+            margin: auto;
 
-            .result {
-                font-size: 1.5em;
-            }
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            border-radius: 50%;
+
+            cursor: inherit;
+
+            display: block;
+
+            transition: 0.5s, color 1s;
         }
 
-        @media screen and (min-width: 768px) {
-            /* Medium screens (tablets, laptops) */
-            h1 {
-                font-size: 2em;
-            }
+        .btn:hover .hidden {
+            width: 200px;
+            height: 200px;
 
-            label {
-                font-size: 1.2em;
-            }
-
-            input[type="number"] {
-                font-size: 1.2em;
-                max-width: 15em;
-            }
-
-            button {
-                font-size: 2.2em;
-            }
-
-            .result {
-                font-size: 1.2em;
-            }
+            color: rgba(0, 0, 0, 0.87);
         }
-        @media only screen and (max-width: 768px) {
-            h1 {
-                font-size: 1em;
-            }
 
-            label {
-                font-size: 1.8em;
-            }
+        .line {
+            width: 50%;
+            max-width: 200px;
+            height: 2px;
 
-            input[type="number"] {
-                font-size: 1.8em;
-                max-width: 10em;
-            }
+            margin: auto;
 
-            button {
-                font-size: 1em;
-            }
+            background: rgba(0, 0, 0, 0.87);
+        }
 
-            .result {
-                font-size: 1.8em;
-                max-width: 10em;
-            }
+        /* Styling things */
+        .colored-button {
+            color: rgba(0, 0, 0, 0.87);
+            background: #46EBB2;
+        }
+
+        .colored-button .hidden {
+            background: #000000;
+        }
+
+        .colored-button:hover .hidden {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            backgrond: #fafafa;
+
+            text-align: center;
+
+            padding: 50px;
+        }
+
+        #title {
+            font-size: 2em;
+
+            margin-bottom: 25px;
+        }
+
+        #line {
+            background: #46EBB2;
+
+            margin-bottom: 25px;
+        }
+
+        #lorem-ipsum {
+            max-width: 600px;
+
+            color: rgba(0, 0, 0, 0.87);
+
+            margin: auto;
+            margin-bottom: 50px;
+        }
+
+        #button {
+            margin-bottom: 25px;
         }
     </style>
 </head>
 <body>
-<h1>Time on salary</h1>
-<label for="salary">Enter your hourly salary rate:</label>
-<input type="number" value="30" id="salary" min="0" step="0.01">
+<h1>Time Money 🤑</h1>
+<label for="salary">hourly salary rate</label>
+<input type="number" placeholder="30" value="30" id="salary" min="0" step="0.01">
 <br><br>
-<label for="price">Enter the price for the item:</label>
-<input type="number" value="60" id="price" min="0" step="0.01">
+<label for="price">price for the item</label>
+<input type="number" placeholder="60" value="60" id="price" min="0" step="0.01">
 <br><br>
-<label for="workingHours">Enter your working hours(per day):</label>
-<input type="number" value="8" id="workingHours" min="0" step="24">
+<label for="workingHours">working hours (per day)</label>
+<input type="number" placeholder="8" value="8" id="workingHours" min="0" step="24">
 <br><br>
-<label for="workingDays">Enter your working days (per month):</label>
-<input type="number" value="20" id="workingDays" min="0" step="31">
+<label for="workingDays">working days (per month)</label>
+<input type="number" placeholder="20" value="20" id="workingDays" min="0" step="31">
 <br><br>
-<button onclick="calculate()">Calculate</button>
+<a onclick="calculate() " href="#" class="btn colored-button" id="button">
+    <span class="face">Time Price</span>
+    <span class="hidden">Evaluate</span>
+</a>
 <br><br>
 <div class="resultOutput" id="resultOutput">
-    <h1>This how long you need to work to afford this item:</h1>
+    <h2>To afford this<br> you need to work👨‍💻👇</h2>
     <div class="result" id="resultMinutes"></div>
     <div class="result" id="resultHours"></div>
     <div class="result" id="resultDays"></div>
@@ -191,7 +203,7 @@
         document.getElementById("resultDays").innerHTML = outputDays;
         document.getElementById("resultMonths").innerHTML = outputMonths;
         document.getElementById("resultYears").innerHTML = outputYears;
-        document.getElementById("resultOutput").style.display = "flex";
+        document.getElementById("resultOutput").style.display = "block";
     }
 </script>
 </body>
