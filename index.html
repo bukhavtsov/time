@@ -127,10 +127,20 @@
             text-decoration: none;
             font-size: 5vh;
         }
+        .info {
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 5vh;
+        }
     </style>
 </head>
 <body>
 <a onclick="config(true)" href="#" class="config">⚙️</a>
+<a onclick="info()" href="#" class="info">💁‍</a>
 <h1>Time Money 🤑</h1>
 <b>Current configuration</b>
 <p id="salary"></p>
@@ -199,6 +209,10 @@
 
         let outputMessage = `To afford this \n you need to work👨‍💻👇\n\n${outputMinutes}\n${outputHours}\n${outputDays}\n${outputMonths}\n${outputYears}`
         window.alert(outputMessage)
+    }
+    function info() {
+        let infoMessage = `TimeMoney🤑- the ultimate financial tracker that lets you take control of your spending by looking on them from a new angle! With TimeMoney, you evaluate the time and effort it took you to earn that money, and use that as a benchmark for your purchases. It's the perfect tool for anyone who wants to be more mindful about their finances and make smarter, more informed spending decisions. Say goodbye to impulse purchases and hello to financial freedom with TimeMoney!`
+        window.alert(infoMessage)
     }
 </script>
 </body>
