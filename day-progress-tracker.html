@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>">
+    <link rel="stylesheet" href="assets/Inter-3.19/Inter Web/inter.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Day Progress</title>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="time"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .progress {
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 15px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            transition: width 0.5s;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 30px;
+            margin-top: 20px;
+        }
+
+        .config {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 5vh;
+        }
+        .back {
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 5vh;
+        }
+    </style>
+</head>
+<body>
+<h1>Day Progress ⏱️</h1>
+<a href="./index.html" class="back">🔙</a>
+<a onclick="config(true)" href="#" class="config">⚙️</a>
+<p id="start"></p>
+<p id="end"></p>
+
+<div class="progress">
+    <div class="progress-bar" id="progress-bar"></div>
+</div>
+
+<div class="timer" id="timer"></div>
+
+<script>
+    let start = ''
+    let end = ''
+    config();
+
+    function config(isButton) {
+        if (!localStorage.getItem("start") || isButton) {
+            start = getTimeFromInput(window.prompt("Step #1/2. Please enter time when you usually wake up:", `8:00`));
+            localStorage.setItem("start", start);
+        } else {
+            start = new Date(Date.parse(localStorage.getItem("start")));
+        }
+
+        if (!localStorage.getItem("end") || isButton) {
+            end = getTimeFromInput(window.prompt("Step #2/2. Please enter time when you usually go to bed:", `23:00`));
+            localStorage.setItem("end", end);
+        } else {
+            end = new Date(Date.parse(localStorage.getItem("end")));
+        }
+
+        end = adjustDate(end)
+
+        document.getElementById("start").innerHTML = `Start time: <b>${formatTime(start)}<b>`;
+        document.getElementById("end").innerHTML = `End time: <b>${formatTime(end)}<b>`;
+    }
+
+    function adjustDate(date) {
+        if (date.getHours() >= 0 && date.getHours() <= 12) {
+            date.setDate(date.getDate() + 1);
+        }
+        return date;
+    }
+
+    // Get the progress bar and timer elements
+    const progressBar = document.getElementById('progress-bar');
+    const timer = document.getElementById('timer');
+
+    // Calculate the duration of the day in milliseconds
+    const duration = 24 * 60 * 60 * 1000;
+
+    // Set the start time input to the current time
+    //    startTimeInput.value = formatTime(startTime);
+    function startTick() {
+        // Update the end time and progress bar when the end time input changes
+        document.getElementById("end").addEventListener('change', () => {
+            end = getTimeFromInput(document.getElementById("end"));
+            updateProgressBar();
+            updateTimer();
+        });
+
+        // Update the progress bar and timer every second
+        setInterval(() => {
+            updateProgressBar();
+            updateTimer();
+        }, 1000);
+    }
+
+    startTick();
+
+    // Update the progress bar based on the current time and the end time
+    function updateProgressBar() {
+        const currentTime = new Date();
+        const progress = Math.min((currentTime - start) / (end - start), 1);
+        progressBar.style.width = `${progress * 100}%`;
+    }
+
+    // Update the timer to show the time remaining until the end of the day
+    function updateTimer() {
+        const currentTime = new Date();
+
+        if (currentTime.getTime() > end.getTime() ){
+            timer.textContent = `Time to catch some z's and dream big ⌛️😴 `;
+        } else {
+            const timeRemaining = end - currentTime;
+            const formattedTime = formatTime(timeRemaining);
+            timer.textContent = `Time Remaining: ${formattedTime}⏳`;
+        }
+    }
+
+    // Parse a time string (in the format HH:MM) into a Date object
+    function getTimeFromInput(input) {
+        const [hours, minutes] = input.split(':');
+        const date = new Date();
+        date.setHours(parseInt(hours));
+        date.setMinutes(parseInt(minutes));
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+        return date;
+    }
+
+    // Format a Date object as a time string (in the format HH:MM)
+    function formatTime(time) {
+        if (!(time instanceof Date)) {
+            time = new Date(time);
+        }
+        const hours = time.getHours().toString().padStart(2, '0');
+        const minutes = time.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    }
+</script>
+</body>
+</html>
