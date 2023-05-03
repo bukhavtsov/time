@@ -14,6 +14,8 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            height: 100vh;
+
         }
 
         input {
@@ -91,16 +93,6 @@
             color: rgba(0, 0, 0, 0.87);
         }
 
-        .line {
-            width: 50%;
-            max-width: 200px;
-            height: 2px;
-
-            margin: auto;
-
-            background: rgba(0, 0, 0, 0.87);
-        }
-
         /* Styling things */
         .colored-button {
             color: rgba(0, 0, 0, 0.87);
@@ -121,27 +113,6 @@
             text-align: center;
 
             padding: 50px;
-        }
-
-        #title {
-            font-size: 2em;
-
-            margin-bottom: 25px;
-        }
-
-        #line {
-            background: #46EBB2;
-
-            margin-bottom: 25px;
-        }
-
-        #lorem-ipsum {
-            max-width: 600px;
-
-            color: rgba(0, 0, 0, 0.87);
-
-            margin: auto;
-            margin-bottom: 50px;
         }
 
         #button {
@@ -167,15 +138,6 @@
     <span class="face">Time Price</span>
     <span class="hidden">Evaluate</span>
 </a>
-<br><br>
-<div class="resultOutput" id="resultOutput">
-    <h2>To afford this<br> you need to work👨‍💻👇</h2>
-    <div class="result" id="resultMinutes"></div>
-    <div class="result" id="resultHours"></div>
-    <div class="result" id="resultDays"></div>
-    <div class="result" id="resultMonths"></div>
-    <div class="result" id="resultYears"></div>
-</div>
 <script>
     function calculate() {
         const salary = document.getElementById("salary").value;
@@ -198,12 +160,8 @@
         const years = (hours / workingHours / workingDays / 12);
         let outputYears = `${years.toFixed(2)} years`;
 
-        document.getElementById("resultMinutes").innerHTML = outputMinutes;
-        document.getElementById("resultHours").innerHTML = outputHours;
-        document.getElementById("resultDays").innerHTML = outputDays;
-        document.getElementById("resultMonths").innerHTML = outputMonths;
-        document.getElementById("resultYears").innerHTML = outputYears;
-        document.getElementById("resultOutput").style.display = "block";
+        let outputMessage = `To afford this \n you need to work👨‍💻👇\n\n- ${outputMinutes}\n- ${outputHours}\n- ${outputDays}\n -${outputMonths}\n- ${outputYears}`
+        window.alert(outputMessage)
     }
 </script>
 </body>
