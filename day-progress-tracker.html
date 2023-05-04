@@ -66,6 +66,7 @@
             text-decoration: none;
             font-size: 5vh;
         }
+
         .back {
             position: fixed;
             top: 0;
@@ -84,9 +85,9 @@
 <p id="start"></p>
 <p id="end"></p>
 
-<div class="progress">
-    <div class="progress-bar" id="progress-bar"></div>
-</div>
+<!--<div class="progress">-->
+<!--    <div class="progress-bar" id="progress-bar"></div>-->
+<!--</div>-->
 
 <div class="timer" id="timer"></div>
 
@@ -97,30 +98,21 @@
 
     function config(isButton) {
         if (!localStorage.getItem("start") || isButton) {
-            start = getTimeFromInput(window.prompt("Step #1/2. Please enter time when you usually wake up:", `8:00`));
+            start = window.prompt("Step #1/2. Please enter time when you usually wake up:", `8:00`);
             localStorage.setItem("start", start);
         } else {
-            start = new Date(Date.parse(localStorage.getItem("start")));
+            start = localStorage.getItem("start");
         }
 
         if (!localStorage.getItem("end") || isButton) {
-            end = getTimeFromInput(window.prompt("Step #2/2. Please enter time when you usually go to bed:", `23:00`));
+            end = window.prompt("Step #2/2. Please enter time when you usually go to bed:", `23:00`);
             localStorage.setItem("end", end);
         } else {
-            end = new Date(Date.parse(localStorage.getItem("end")));
+            end = localStorage.getItem("end");
         }
 
-        end = adjustDate(end)
-
-        document.getElementById("start").innerHTML = `Start time: <b>${formatTime(start)}<b>`;
-        document.getElementById("end").innerHTML = `End time: <b>${formatTime(end)}<b>`;
-    }
-
-    function adjustDate(date) {
-        if (date.getHours() >= 0 && date.getHours() <= 12) {
-            date.setDate(date.getDate() + 1);
-        }
-        return date;
+        document.getElementById("start").innerHTML = `Start time: <b>${start}<b>`;
+        document.getElementById("end").innerHTML = `End time: <b>${end}<b>`;
     }
 
     // Get the progress bar and timer elements
@@ -135,35 +127,55 @@
     function startTick() {
         // Update the end time and progress bar when the end time input changes
         document.getElementById("end").addEventListener('change', () => {
-            end = getTimeFromInput(document.getElementById("end"));
-            updateProgressBar();
+        //    updateProgressBar();
             updateTimer();
         });
 
         // Update the progress bar and timer every second
         setInterval(() => {
-            updateProgressBar();
+       //     updateProgressBar();
             updateTimer();
         }, 1000);
     }
 
     startTick();
 
-    // Update the progress bar based on the current time and the end time
-    function updateProgressBar() {
-        const currentTime = new Date();
-        const progress = Math.min((currentTime - start) / (end - start), 1);
-        progressBar.style.width = `${progress * 100}%`;
-    }
+    // function updateProgressBar() {
+    //     const currentTime = new Date();
+    //     const startTime = getTimeFromInput(start).getTime();
+    //     let endTime = getTimeFromInput(end).getTime();
+    //     const currentTimeMillis = currentTime.getTime();
+    //     if (endTime < startTime) { const endInDate = getTimeFromInput(end);
+    //         endInDate.setDate(endInDate.getDate() + 1);
+    //         endTime = endInDate.getTime();
+    //     }
+    //
+    //     let progress;
+    //     if (currentTimeMillis >= endTime) {
+    //         progress = 1;
+    //     } else {
+    //         // console.log(currentTimeMillis)
+    //         // console.log(startTime)
+    //         // console.log(endTime)
+    //         progress = ((currentTimeMillis - startTime) / (endTime - startTime)) * 100;
+    //         console.log(progress)
+    //     }
+    //
+    //     progressBar.style.width = `${progress}%`;
+    // }
+
 
     // Update the timer to show the time remaining until the end of the day
     function updateTimer() {
         const currentTime = new Date();
+        let endInTime = getTimeFromInput(end)
 
-        if (currentTime.getTime() > end.getTime() ){
+        if (currentTime.getTime() > endInTime.getTime()) {
             timer.textContent = `Time to catch some z's and dream big ⌛️😴 `;
         } else {
-            const timeRemaining = end - currentTime;
+            let timeRemaining = endInTime - currentTime;
+            timeRemaining = new Date(timeRemaining)
+            timeRemaining.setHours(timeRemaining.getHours() - 1);
             const formattedTime = formatTime(timeRemaining);
             timer.textContent = `Time Remaining: ${formattedTime}⏳`;
         }
@@ -187,7 +199,8 @@
         }
         const hours = time.getHours().toString().padStart(2, '0');
         const minutes = time.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
+        const seconds = time.getSeconds().toString().padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
     }
 </script>
 </body>
